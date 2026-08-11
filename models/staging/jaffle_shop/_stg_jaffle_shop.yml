@@ -1,0 +1,35 @@
+models:
+  - name: stg_jaffle_shop__customers
+    description: The table contains the information about the customers
+    columns:
+      - name: customer_id
+        description: The primary key which represents the unique id for each customer
+        data_tests:
+          - unique 
+          - not_null 
+  - name: stg_jaffle_shop__orders
+    description: The table contains the information about the orders
+    columns:
+      - name: order_id
+        description: The primary key which represents the unique id for each order placed
+        data_tests:
+          - unique 
+          - not_null
+      - name: order_status
+        description: The status of the order placed
+        data_tests:
+          - accepted_values:
+              arguments: 
+                values:
+                  - completed
+                  - shipped
+                  - returned
+                  - placed
+                  - return_pending
+      - name: customer_id
+        description: The customer_id of the customers who placed the order
+        data_tests:
+          - relationships:
+              arguments: 
+                to: ref('stg_jaffle_shop_customers')
+                field: customer_id

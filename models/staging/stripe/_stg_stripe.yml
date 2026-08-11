@@ -1,0 +1,15 @@
+models:
+  - name: stg_stripe__payment
+    description: This table gives the information about the payments
+    columns:
+      - name: payment_id
+        description: The primary key which represents the unique id for each customer
+        data_tests:
+          - unique 
+          - not_null
+      - name: order_id
+        description: The identifier of the order associated with this payment
+        data_tests:
+          - relationships:
+              to: ref('stg_jaffle_shop__orders')
+              field: order_id
