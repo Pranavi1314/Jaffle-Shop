@@ -1,0 +1,21 @@
+snapshots:
+  - name: orders_snapshot_check
+    relation: source('jaffle_shop','orders')
+    config:
+      database: analytics
+      schema: snapshots
+      unique_key: id
+      strategy: check # Check strategy
+      check_cols: ['id', 'user_id', 'order_date', 'status'] # Checks based on these columns
+      hard_deletes: ignore # ignores the record if deleted
+      dbt_valid_to_current: "to_date('9999-12-31')" # In dbt_valid_to, instead of NULL this value will be given by default
+
+  - name: orders_snapshot_timestamp
+    relation: source('jaffle_shop','orders')
+    config:
+      database: analytics
+      schema: snapshots
+      unique_key: id
+      strategy: timestamp # Timestamp startegy
+      updated_at: _etl_loaded_at # Checks based on the timestamp
+      hard_deletes: new_record # In dbt_valid_to, NULL is changed to the current timestamp and a new record inserted with is_deleted ad True
