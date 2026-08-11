@@ -11,5 +11,6 @@ models:
         description: The identifier of the order associated with this payment
         data_tests:
           - relationships:
-              to: ref('stg_jaffle_shop__orders')
-              field: order_id
+              arguments:
+                to: ref('stg_jaffle_shop__orders')
+                field: order_id
