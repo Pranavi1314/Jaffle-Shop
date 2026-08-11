@@ -3,6 +3,6 @@ packages:
     version: 1.4.1
   - package: dbt-labs/codegen
     version: 0.14.1
-  # - git: https://github.com/dbt-labs/dbt-audit-helper.git
-  #   version: 0.14.0
+  - git: https://github.com/dbt-labs/dbt-audit-helper.git
+    version: 0.14.0
   # - local: sub_project  Any projects can be imported to this project as packages

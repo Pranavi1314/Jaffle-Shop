@@ -1,0 +1,13 @@
+{% set old_etl_relation=ref('customers_orders') %} 
+
+{% set dbt_relation=ref('fct_refactor_customers_orders') %}  {{ 
+
+audit_helper.compare_relations(
+        a_relation=old_etl_relation,
+        b_relation=dbt_relation,
+        primary_key="order_id"
+    ) }}
+
+-- This function is used to compare if the results from both models are same, so that the new model can be put in the production. 
+
+    
