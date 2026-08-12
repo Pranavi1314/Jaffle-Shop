@@ -39,6 +39,8 @@ models:
   my_new_project:
     staging:
       +materialized: view
+      +grants:
+         select: ['accountadmin','public']
     marts:
       +materialized: table
     legacy:

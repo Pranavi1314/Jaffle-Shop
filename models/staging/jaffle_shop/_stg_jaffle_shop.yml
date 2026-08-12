@@ -6,7 +6,10 @@ models:
         description: The primary key which represents the unique id for each customer
         data_tests:
           - unique 
-          - not_null 
+          - not_null
+    config:
+      grants:
+        select: ['accountadmin']
   - name: stg_jaffle_shop__orders
     description: The table contains the information about the orders
     columns:
