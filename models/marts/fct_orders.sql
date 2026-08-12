@@ -1,5 +1,20 @@
+{{
+  config(
+    materialized = 'incremental',
+    unique_key = 'order_id',
+    incremental_strategy = 'merge', 
+  )
+}}
+
+-- merge  : Updates the changes and inserts new records
+-- append : Appends the records
+-- delete_insert : Deletes the old records and inserts new records
+-- insert_overwrite : Overwrites the entire partiton if any change made in that particular partition
+-- microbatch : Updates in microbatches, it will be helpful in case we have to update a particular time range data
+
+
 with orders as  (
-    select * from {{ ref ('stg_jaffle_shop_refactor__orders' )}}
+    select * from {{ ref ('stg_jaffle_shop__orders' )}}
 ),
 
 payments as (
@@ -28,3 +43,9 @@ order_payments as (
 )
 
 select * from final
+
+
+{% if is_incremental() %}
+where
+order_date >= (select max(order_date) from {{this}})
+{% endif %}
