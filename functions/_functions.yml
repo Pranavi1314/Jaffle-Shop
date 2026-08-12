@@ -1,0 +1,14 @@
+functions:
+  - name: if_positive    
+    description: UDF that returns id if positive value, else it will return 0
+    config:
+      schema: udf
+      database: analytics
+    arguments:                  
+      - name: id          
+        data_type: integer       
+        description: The id that has to be checked whether its a null value   
+    returns:                    
+      data_type: integer    
+
+# {{ function ('if_positive') }}(id)

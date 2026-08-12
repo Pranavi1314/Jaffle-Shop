@@ -41,3 +41,11 @@ models:
       +materialized: view
     marts:
       +materialized: table
+    legacy:
+      +materialized: table
+    staging_refactor:
+      +materialized: view
+    intermediate_refactor:
+      +materialized: table
+    marts_refactor:
+      +materialized: table
