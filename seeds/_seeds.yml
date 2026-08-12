@@ -1,0 +1,6 @@
+seeds:
+  - name: employees
+    description: The employees information 
+    config:
+      grants:
+        select: ['accountadmin','transform']
