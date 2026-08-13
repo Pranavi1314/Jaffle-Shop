@@ -9,10 +9,10 @@ sources:
     config: 
       freshness:
         warn_after:
-          count: 7
+          count: 30
           period: day
         error_after:
-          count: 10
+          count: 60
           period: day
       loaded_at_field: _etl_loaded_at
     tables:
