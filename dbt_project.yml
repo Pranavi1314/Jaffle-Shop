@@ -41,8 +41,13 @@ models:
       +materialized: view
       +grants:
          select: ['accountadmin','public']
+      # +meta:
+      #   +required_tests: {"unique.*|not_null": 1}
     marts:
       +materialized: table
+      # +meta:
+      #   +required_tests:
+      #     relationships: 1
     legacy:
       +materialized: table
     staging_refactor:
