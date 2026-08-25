@@ -5,6 +5,10 @@ models:
     description: >
       One row per order, enriched with the total amount of successful payments.
       This incremental fact table is the canonical order-level mart for revenue analysis.
+    data_tests:
+      - dbt_utils.expression_is_true:
+          arguments: 
+            expression: "amount >= 0"
     columns:
       - name: order_id
         description: Primary key for the order.
@@ -19,11 +23,29 @@ models:
               arguments:
                 to: ref('dim_customers')
                 field: customer_id
+          # - dbt_utils.cardinality_equality:
+          #     arguments:
+          #       field: customer_id
+          #       to: ref('dim_customers')
 
       - name: order_date
         description: Date the order was placed.
       - name: amount
         description: Total amount of successful payments recorded for the order, or zero when none exist.
+        data_tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments: 
+                min_value: 0
+                row_condition: "order_id is not null"
+                strictly: false
+          - dbt_expectations.expect_column_mean_to_be_between:
+              arguments: 
+                min_value: 0
+                group_by: [order_id]
+                row_condition: "order_id is not null"
+                strictly: false 
+                # false if min_value and max_value should be included (amount >= min_value and amount <= max_value)
+                # true if min_value and max_value should'nt be included (amount > min_value and amount < max_value)
 
   - name: dim_customers
     description: >
@@ -48,3 +70,14 @@ models:
         description: Count of orders placed by the customer, including zero for customers without orders.
       - name: lifetime_value
         description: Sum of successful-payment amounts across the customer's orders; null when the customer has not ordered.
+        data_tests:
+          - dollars_greater_than_one:
+              arguments: 
+                group_by_column: customer_id
+                clv_column: lifetime_value
+                # config:
+                #   severity: warn
+                #   error_if: ">=100" # Error if the records that fails are more than or equal to 100
+                #   where: "ordered_at = current_timestamp()" # Based on the where condition, test is applied
+                #   limit: 5 # Returns 5 failed test cases
+                #   store_failures: true # Stores the failed test cases

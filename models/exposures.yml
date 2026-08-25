@@ -1,0 +1,41 @@
+exposures:
+  - name: orders_dashboard
+    label: Orders Dashboard
+    type: application
+    url: https://app.snowflake.com/iretvsu/oc83219/#/workspaces/ws/USER%24/PUBLIC/DEFAULT%24/orders_dashboard/streamlit_app.py
+    maturity: high # This represents the usage of the application or dashboard or ML model
+    description: Analysis of fct_orders
+    owner:
+      name: Pranavi
+      email: pasupuleti.pranavi@relevancelab.com
+    depends_on:
+      - ref('fct_orders')
+
+  - name: orders_data
+    label: orders_data
+    type: notebook
+    maturity: high
+    url: https://tinyurl.com/jaffle-shop-reporting
+    description: 'Exposure for orders metrics'
+    depends_on:
+      - ref('fct_orders')
+      - metric('order_total')
+      - metric('large_orders')
+      - metric('cumulative_order_amount_mtd')
+    owner:
+      name: Michael McData
+      email: data@jaffleshop.com
+  
+  - name: customers_data
+    label: customers_data
+    type: notebook
+    maturity: high
+    url: https://tinyurl.com/jaffle-shop-reporting
+    description: 'Exposure for customer metrics'
+    depends_on:
+      - ref('dim_customers')
+    owner: 
+      name: Data Startrek
+      email: operations_manager@enterprise.com
+
+# dbt build -s exposure:orders_dashboard

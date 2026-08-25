@@ -2,10 +2,16 @@
   config(
     materialized = 'incremental',
     unique_key = 'order_id',
-    incremental_strategy = 'merge', 
-  )
+    incremental_strategy = 'merge')
 }}
 
+--     meta = {
+--      "required_tests": {
+--          "relationships": 1
+--      }
+--    }
+--   )
+        
 -- merge  : Updates the changes and inserts new records
 -- append : Appends the records
 -- delete_insert : Deletes the old records and inserts new records
