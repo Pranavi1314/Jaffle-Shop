@@ -44,8 +44,8 @@ models:
                 group_by: [order_id]
                 row_condition: "order_id is not null"
                 strictly: false 
-                # false if min_value should be included (amount >= 0)
-                # true if min_value should'nt be included (amount > 0)
+                # false if min_value and max_value should be included (amount >= min_value and amount <= max_value)
+                # true if min_value and max_value should'nt be included (amount > min_value and amount < max_value)
 
   - name: dim_customers
     description: >
@@ -75,3 +75,9 @@ models:
               arguments: 
                 group_by_column: customer_id
                 clv_column: lifetime_value
+                # config:
+                #   severity: warn
+                #   error_if: ">=100" # Error if the records that fails are more than or equal to 100
+                #   where: "ordered_at = current_timestamp()" # Based on the where condition, test is applied
+                #   limit: 5 # Returns 5 failed test cases
+                #   store_failures: true # Stores the failed test cases
